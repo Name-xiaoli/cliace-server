@@ -1,7 +1,7 @@
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { Injectable, } from '@nestjs/common';
 // import path from 'path';
-import {  Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Email } from '../entities/email.entity';
 
@@ -20,7 +20,7 @@ export class EmailService {
     console.log(email);
 
     try {
-      const code:string = Math.random()
+      const code: string = Math.random()
         .toString()
         .slice(-6);
       console.log(code);
@@ -29,27 +29,27 @@ export class EmailService {
       const sendMailOptions: ISendMailOptions = {
         to: email,
         subject: '用户邮箱验证',
-        text:"你的验证码为: "+code+'\n'+date,
-        
+        text: "你的验证码为: " + code + '\n' + date,
+
       };
       const res = await this.mailerService.sendMail(sendMailOptions);
       console.log(res);
-      const data_email=new Email()
-      data_email.captcha=code
-      data_email.email=email
+      const data_email = new Email()
+      data_email.captcha = code
+      data_email.email = email
       //保存邮箱和验证码到数据库
       const haveEmail = await this.email.find({
-        where:{
-          email:email
+        where: {
+          email: email
         }
       })
       console.log(haveEmail);
-      if (haveEmail.length===0) {
+      if (haveEmail.length === 0) {
         this.email.save(data_email)
-      }else{
-        this.email.update(haveEmail[0].id,data_email)
+      } else {
+        this.email.update(haveEmail[0].id, data_email)
       }
-      
+
 
       console.log(`发送邮件给:${email},成功!`);
       return { code: 200, message: '邮件发送成功' };

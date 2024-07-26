@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 export class User {
 
   @PrimaryGeneratedColumn()
-  id:number
+  id: number
 
   @Column({ type: "varchar", length: 10, unique: true, update: false })
   login_name: string
