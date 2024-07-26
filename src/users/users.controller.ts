@@ -1,10 +1,11 @@
-import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { DeleteUserDto } from './dto/delete-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { EmailService } from './email/email.service'
+import { UpdatePasswordDto ,PWD} from './dto/updata-password.dto'
 
 @Controller('users')
 export class UsersController {
@@ -26,8 +27,8 @@ export class UsersController {
   }
 
   //更新账户信息
-  @Patch(':id')
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  @Patch()
+  update(@Query('id') id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
   }
 
@@ -42,4 +43,11 @@ export class UsersController {
   createEmail(@Body('email') email: string) {
     return this.emailService.sendEmailCode(email)
   }
+
+  //更新密码
+  @Patch('changePWD')
+  updatePassword(@Query() data:UpdatePasswordDto, @Body() PWD: PWD) {
+    return this.usersService.updatePwd(data, PWD);
+  }
+
 }

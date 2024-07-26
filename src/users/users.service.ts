@@ -10,6 +10,8 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { Email } from './entities/email.entity';
 
+import { UpdatePasswordDto,PWD } from './dto/updata-password.dto'
+
 
 @Injectable()
 export class UsersService {
@@ -88,12 +90,34 @@ export class UsersService {
   }
 
   //登录
-  findOne(findUserDto: FindUserDto): Promise<User> {
-    return this.user.findOne({
+  async findOne(findUserDto: FindUserDto): Promise<User> {
+    return await this.user.findOne({
       where: {
         login_name: findUserDto.login_name,
         passworsd: findUserDto.passworsd
       }
     });
+  }
+
+  //更新密码
+  async updatePwd(data: UpdatePasswordDto, PWD: PWD): Promise<Object> {
+    const userRes = await this.user.find({
+      where: {
+        login_name: data.login_name,
+        passworsd: data.passworsd
+      }
+    })
+    console.log(userRes);
+    if(userRes[0].id!==0){
+      await this.user.update(userRes[0].id,PWD)
+      return {
+        message:"成功更新密码"
+      }
+    }else{
+      return {
+        message:"账号或密码错误"
+      }
+    }
+
   }
 }
