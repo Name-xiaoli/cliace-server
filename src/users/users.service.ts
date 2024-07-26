@@ -90,31 +90,54 @@ export class UsersService {
   }
 
   //登录
-  async findOne(findUserDto: FindUserDto): Promise<User> {
-    return await this.user.findOne({
-      where: {
-        login_name: findUserDto.login_name,
-        passworsd: findUserDto.passworsd
+  async findOne(findUserDto: FindUserDto): Promise<User | Object>  {
+    try {
+      const res= await this.user.findOne({
+        where: {
+          login_name: findUserDto.login_name,
+          passworsd: findUserDto.passworsd
+        }
+      })
+      if (res===null) {
+        return {
+          message:"账号或密码有误"
+        }
+      }else{
+        return res
       }
-    });
+      
+      
+    } catch (error) {
+      return {
+        message:"账号或密码有误"
+      }
+    }
+    
   }
 
   //更新密码
   async updatePwd(data: UpdatePasswordDto, PWD: PWD): Promise<Object> {
-    const userRes = await this.user.find({
-      where: {
-        login_name: data.login_name,
-        passworsd: data.passworsd
-      }
-    })
-    console.log(userRes);
-    if(userRes[0].id!==0){
-      await this.user.update(userRes[0].id,PWD)
+    try {
+      const userRes = await this.user.find({
+        where: {
+          login_name: data.login_name,
+          passworsd: data.passworsd
+        }
+      })
+      console.log(userRes);
+      if (userRes.length===0) {
+        return {
+          message:"账号或密码错误"
+        }
+      }else{
+        await this.user.update(userRes[0].id,PWD)
       return {
         message:"成功更新密码"
       }
-    }else{
+      }
+    } catch (error) {
       return {
+        err:error,
         message:"账号或密码错误"
       }
     }
