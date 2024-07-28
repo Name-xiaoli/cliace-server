@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,OneToMany } from 'typeorm';
+
+import { Blog } from '../../blog/entities/blog.entity';
 
 @Entity()
 export class User {
@@ -33,4 +35,7 @@ export class User {
 
   @UpdateDateColumn({ type: "timestamp" })
   updata_time: Date
+
+  @OneToMany(()=> Blog,(blog)=>blog.user)
+  blogs:Blog[]
 }

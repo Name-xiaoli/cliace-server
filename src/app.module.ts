@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 //数据库
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { BlogModule } from './blog/blog.module';
 
 
 @Module({
@@ -20,7 +21,8 @@ import { UsersModule } from './users/users.module';
       synchronize: true,
       autoLoadEntities: true
     }),
-    UsersModule],
+    UsersModule,
+    BlogModule],
   controllers: [AppController],
   providers: [AppService],
 })
