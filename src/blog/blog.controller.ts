@@ -10,10 +10,6 @@ import { DeleteBlogDto } from './dto/delete-blog.dto';
 export class BlogController {
   constructor(private readonly blogService: BlogService) { }
 
-  // @Post()
-  // create(@Body() createBlogDto: CreateBlogDto) {
-  //   return this.blogService.create(createBlogDto);
-  // }
   //发布博客
   @Post('add')
   async addBlog(@Body() createBlogDto: CreateBlogDto) {
@@ -49,21 +45,4 @@ export class BlogController {
   DeleteBlogDto(@Body() deleteBlogDto:DeleteBlogDto){
     return this.blogService.DeleteBlogDto(deleteBlogDto)
   }
-
-  
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.blogService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateBlogDto: UpdateBlogDto) {
-  //   return this.blogService.update(+id, updateBlogDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.blogService.remove(+id);
-  // }
 }

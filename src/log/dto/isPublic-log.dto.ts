@@ -1,6 +1,6 @@
 import { ValidateIf, IsNotEmpty, IsString, IsEmail, IsNumber, IsMobilePhone,Length } from 'class-validator';
 
-export class IsPublicBlogDto {
+export class IsPublicLogDto {
   @IsNotEmpty({ message: 'ID不能为空' })
   id:number
 

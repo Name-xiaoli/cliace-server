@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn,OneToMany } from 'typeorm';
 
 import { Blog } from '../../blog/entities/blog.entity';
+import { Log } from '../../log/entities/log.entity';
 
 @Entity()
 export class User {
@@ -38,4 +39,7 @@ export class User {
 
   @OneToMany(()=> Blog,(blog)=>blog.user)
   blogs:Blog[]
+
+  @OneToMany(()=> Log,(log)=>log.user)
+  logs:Log[]
 }

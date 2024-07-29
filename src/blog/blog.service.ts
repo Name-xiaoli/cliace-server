@@ -47,7 +47,10 @@ export class BlogService {
   async findAll(): Promise<Object | Blog> {
     try {
       return await this.blog.find({
-        relations: ["user"]
+        relations: ["user"],
+        where:{
+          isPublic:true
+        }
       })
     } catch (error) {
       return {
@@ -103,7 +106,7 @@ export class BlogService {
   }
 
   //是否公开博客
-  async isPublic(isPublicBlogDto: IsPublicBlogDto) {
+  async isPublic(isPublicBlogDto: IsPublicBlogDto) : Promise<Object>{
     try {
       const blogInfo = await this.blog.findOne({
         where: {
@@ -130,7 +133,7 @@ export class BlogService {
   }
 
   //删除博客
-  async DeleteBlogDto(deleteBlogDto: DeleteBlogDto) {
+  async DeleteBlogDto(deleteBlogDto: DeleteBlogDto): Promise<Object> {
     try {
       const res = await this.user.findOne({
         relations: ["blogs"],
@@ -152,10 +155,11 @@ export class BlogService {
           message:"该用户没有此博客"
         }
       }
-
-
     } catch (error) {
-
+      return {
+        err: error,
+        message: "删除博客失败"
+      }
     }
   }
 
